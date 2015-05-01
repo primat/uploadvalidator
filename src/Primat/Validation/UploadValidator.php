@@ -40,7 +40,7 @@ $config = array(
 );
 */
 
-class FileUpload
+class UploadValidator
 {
 	/** @var array $config Current config settings */
 	protected $config;

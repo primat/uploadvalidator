@@ -1,0 +1,18 @@
+{
+    "name": "primat/upload-validator",
+    "description": "A File upload validation class",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Mat Price",
+            "email": "dev.msp@gmail.com"
+        }
+    ],
+    "require": {},
+    "require-dev": {},
+    "autoload": {
+        "psr-4": {
+            "Primat\\Validation\\": "src"
+        }
+    }
+}

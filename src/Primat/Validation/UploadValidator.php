@@ -1,5 +1,5 @@
 <?php
-namespace Primat\Http;
+namespace Primat\Validation;
 
 /**
  * Class UploadValidator
@@ -8,7 +8,6 @@ namespace Primat\Http;
  * File: UploadValidator.php
  * Version: 0.3.0
  * Author: Mat Price - dev.msp@gmail.com
- * Last modification date 2/8/2014
  */
 
 /*
@@ -22,14 +21,14 @@ $config = array(
            'max_file_size' => 128000,     // Maximum number of bytes for the file upload
       'upload_is_required' => false,      // If set to true, an error will be signaled if there was no upload (i.e. $_FILES['userfile']['error'] === 4)
 
-          'min_img_height' => 1, 		  // Minimum height an image upload may be
-          'max_img_height' => 1200, 	  // Maximum height an image upload may be
-           'min_img_width' => 1, 		  // Minimum width an image upload may be
-           'max_img_width' => 1600, 	  // Maximum width an image upload may be
+          'min_img_height' => 1, 		  // Minimum height for an uploaded image
+          'max_img_height' => 1200, 	  // Maximum height for an uploaded image
+           'min_img_width' => 1, 		  // Minimum width for an uploaded image
+           'max_img_width' => 1600, 	  // Maximum width for an uploaded image
 
                'move_file' => false,      // Set to true to move_upload() within this runValidation() function
                'overwrite' => false,      // When set to false, a number between parentheses is appended to the end of the filename to try and make it unique
-              'upload_dir' => '',        // Directory where the upload may be copied to
+              'upload_dir' => '',         // Directory where the upload may be copied to
 
         'file_permissions' => 0775,       // Set the file permissions of newly uploaded files to this
                 'filename' => '',         // Custom filename (without .extension) which will override the uploaded one. It is passed through validation and sanitization if they are enabled.
@@ -40,20 +39,21 @@ $config = array(
        'filename_validate' => true,       // Validate the filename against exploits, filename length, undesirable characters...
 );
 */
+
 class FileUpload
 {
 	/** @var array $config Current config settings */
-	private $config;
+	protected $config;
 	/** @var array $defaults Default config settings */
-	private $defaults;
+	protected $defaults;
 	/** @var array $errors List of messages add by the validator */
-	private $errors;
+	protected $errors;
 	/** @var array $errorMessages All error messages are stored here */
-	private $errorMessages;
+	protected $errorMessages;
 	/** @var array $fileTypes Pool of all types of files to process */
-	private $fileTypes;
+	protected $fileTypes;
 	/** @var array $supportedLanguages Currently supports English and French (CA) */
-	private $supportedLanguages;
+	protected $supportedLanguages;
 
 	/**
 	 * Constructor
@@ -77,7 +77,7 @@ class FileUpload
 		$this->defaults['max_img_height'] = 5000;
 
 		$this->defaults['move_file'] = false;
-		$this->defaults['overwrite'] = false; // Only applicable is move_file is true
+		$this->defaults['overwrite'] = false; // Only applicable if move_file is true
 		$this->defaults['upload_dir'] = sys_get_temp_dir(); // "
 
 		$this->defaults['file_permissions'] = 0775;
@@ -109,7 +109,7 @@ class FileUpload
 	 * @param string $filename The filename/path to check for existence
 	 * @return bool
 	 */
-	private function ciFileExists($filename)
+	protected function ciFileExists($filename)
 	{
 		if (file_exists($filename)) {
 			return true;
@@ -133,7 +133,7 @@ class FileUpload
 	 * @param bool $validation_data Set to true to include validation info in messages
 	 * @return string
 	 */
-	private function getErrorMsg($errorKey, $validation_data = false)
+	protected function getErrorMsg($errorKey, $validation_data = false)
 	{
 		$retval = '';
 
@@ -219,18 +219,10 @@ class FileUpload
 	}
 
 	/**
-	 *
-	 */
-//	public function getTempFilePath()
-//	{
-//
-//	}
-
-	/**
 	 * Initialize the error messages array
 	 * @param string $lang The language of the error messages
 	 */
-	private function initErrorMessages($lang)
+	protected function initErrorMessages($lang)
 	{
 		// Empty previous error messages
 		$this->errorMessages = array();

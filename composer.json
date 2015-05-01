@@ -14,7 +14,7 @@
     "require-dev": {},
     "autoload": {
         "psr-4": {
-            "Primat\\Validation\\": "src"
+            "Primat\\Validation\\": "src/Primat/Validation"
         }
     }
 }
